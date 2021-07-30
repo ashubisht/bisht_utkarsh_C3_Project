@@ -17,8 +17,15 @@ class RestaurantTest {
         //WRITE UNIT TEST CASE HERE
         restaurant = new Restaurant("Ashu's 5 Star Luxury Restaurant", "Chandigarh", LocalTime.parse("09:00:00"), LocalTime.parse("21:30:00"));
         Restaurant spiedRestaurant = Mockito.spy(restaurant);
+
+        // Regular case scenario
         Mockito.when(spiedRestaurant.getCurrentTime()).thenReturn(restaurant.closingTime.minusMinutes(30));
         Boolean restaurantStatus = spiedRestaurant.isRestaurantOpen();
+        assertTrue(restaurantStatus);
+
+        // Edge case scenario: Opening time
+        Mockito.when(spiedRestaurant.getCurrentTime()).thenReturn(restaurant.openingTime);
+        restaurantStatus = spiedRestaurant.isRestaurantOpen();
         assertTrue(restaurantStatus);
     }
 
@@ -27,9 +34,22 @@ class RestaurantTest {
         //WRITE UNIT TEST CASE HERE
         restaurant = new Restaurant("Amelie's cafe", "Chennai", LocalTime.parse("09:00:00"), LocalTime.parse("09:30:00"));
         Restaurant spiedRestaurant = Mockito.spy(restaurant);
-        Mockito.when(spiedRestaurant.getCurrentTime()).thenReturn(restaurant.closingTime.plusHours(1));
+
+        // Regular scenario
+        Mockito.when(spiedRestaurant.getCurrentTime()).thenReturn(restaurant.openingTime.minusMinutes(10));
         Boolean restaurantStatus = spiedRestaurant.isRestaurantOpen();
+        // Sorry Amelie's cafe isn't open yet. You came too quickly. Maybe take a nap and come back again :)
+        assertFalse(restaurantStatus);
+
+        Mockito.when(spiedRestaurant.getCurrentTime()).thenReturn(restaurant.closingTime.plusHours(1));
+        restaurantStatus = spiedRestaurant.isRestaurantOpen();
         // Sorry Amelie's cafe closes too quickly :)
+        assertFalse(restaurantStatus);
+
+        // Edge case scenario
+        Mockito.when(spiedRestaurant.getCurrentTime()).thenReturn(restaurant.closingTime);
+        restaurantStatus = spiedRestaurant.isRestaurantOpen();
+        // Sorry Amelie's cafe is closed as closing time
         assertFalse(restaurantStatus);
     }
 
