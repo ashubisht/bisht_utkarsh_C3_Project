@@ -6,7 +6,7 @@ public class RestaurantService {
     private static List<Restaurant> restaurants = new ArrayList<>();
 
     public Restaurant findRestaurantByName(String restaurantName){
-        return null;
+        return restaurants.stream().filter(restaurant -> restaurant.getName() == restaurantName).findFirst().orElseThrow(()-> new restaurantNotFoundException(restaurantName));
         //DELETE ABOVE STATEMENT AND WRITE CODE HERE
     }
 

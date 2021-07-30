@@ -18,14 +18,16 @@ public class Restaurant {
     }
 
     public boolean isRestaurantOpen() {
-        return true;
+        // Taken instance of current time as it can change in both the condition below as its computed on the fly
+        LocalTime currentTime = getCurrentTime();
+        return !currentTime.isBefore(openingTime) && currentTime.isBefore(closingTime);
         //DELETE ABOVE STATEMENT AND WRITE CODE HERE
     }
 
     public LocalTime getCurrentTime(){ return  LocalTime.now(); }
 
     public List<Item> getMenu() {
-        return null;
+        return menu;
         //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
     }
 
