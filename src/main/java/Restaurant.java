@@ -1,4 +1,3 @@
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +64,9 @@ public class Restaurant {
         return name;
     }
 
-    public Integer calculateTotalOrderValue(List<String> selectedItems){
-        return null;
+    public Integer calculateTotalOrderValue(List<String> selectedFoodName){
+        return selectedFoodName == null ? 0 :
+                menu.stream().filter(menuItem -> selectedFoodName.contains(menuItem.getName())).mapToInt(item -> item.getPrice()).sum();
     }
 
 }

@@ -20,7 +20,7 @@ class RestaurantServiceTest {
         closingTime = LocalTime.parse("22:00:00");
     }
 
-    @BeforeEach // No need for after each to reset, as this automatically resets the values in 1st three statements
+    @BeforeEach
     public void setUp(){
         service = new RestaurantService();
         restaurantName = "Amelie's cafe";
@@ -29,15 +29,21 @@ class RestaurantServiceTest {
         restaurant.addToMenu("Vegetable lasagne", 269);
     }
 
+    @AfterEach
+    public void clean(){
+        service.getRestaurants().clear();
+    }
+
     //>>>>>>>>>>>>>>>>>>>>>>SEARCHING<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void searching_for_existing_restaurant_should_return_expected_restaurant_object() throws restaurantNotFoundException {
         //WRITE UNIT TEST CASE HERE
         assertDoesNotThrow(()->{service.findRestaurantByName(restaurantName);});
         // Updated global restaurant value, but it will be reset in After and Before functions
-        restaurant = service.findRestaurantByName(restaurantName);
+        Restaurant restaurant = service.findRestaurantByName(restaurantName);
         assertNotNull(restaurant);
         assertEquals(restaurantName, restaurant.getName());
+        assertEquals(this.restaurant, restaurant);
     }
 
     //You may watch the video by Muthukumaran on how to write exceptions in Course 3: Testing and Version control: Optional content
