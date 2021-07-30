@@ -65,4 +65,8 @@ public class Restaurant {
         return name;
     }
 
+    public Integer calculateTotalOrderValue(List<String> selectedItems){
+        return null;
+    }
+
 }

@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,4 +89,29 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>ORDER<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    @Test
+    public void calculate_order_value_should_return_0_on_adding_nothing_from_menu(){
+        Integer totalValue = restaurant.calculateTotalOrderValue(new ArrayList<>());
+        assertEquals(0, totalValue);
+    }
+
+    @Test
+    public void calculate_order_value_should_return_0_on_passing_null_in_selected_food_item(){
+        // Null check/ Edge case scenario
+        Integer totalValue = restaurant.calculateTotalOrderValue(null);
+        assertEquals(0, totalValue);
+    }
+
+    @Test
+    public void calculate_order_value_should_return_total_value_on_adding_food_items_from_menu(){
+        // Select all items in menu of restaurant and check total value
+        List<String> selectedItems = restaurant.getMenu().stream().map(Item::getName).collect(Collectors.toList());
+        Integer totalValue = restaurant.calculateTotalOrderValue(selectedItems);
+        assertEquals(388, totalValue);
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<ORDER>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 }
